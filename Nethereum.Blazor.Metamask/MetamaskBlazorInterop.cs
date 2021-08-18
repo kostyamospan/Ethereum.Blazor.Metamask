@@ -13,12 +13,9 @@ namespace Nethereum.Blazor.Metamask
     {
         private readonly IJSRuntime _jsRuntime;
 
-        private MetamaskHostProvider _hostProvider;
-        
-        public MetamaskBlazorInterop(IJSRuntime jsRuntime, MetamaskHostProvider hostProvider)
+        public MetamaskBlazorInterop(IJSRuntime jsRuntime)
         {
             _jsRuntime = jsRuntime;
-            _hostProvider = hostProvider;
         }
         
         public async ValueTask<string> EnableEthereumAsync()
@@ -72,19 +69,19 @@ namespace Nethereum.Blazor.Metamask
         [JSInvokable()]
         public async Task MetamaskAvailableChanged(bool available)
         {
-            await _hostProvider.ChangeMetamaskAvailableAsync(available);
+            await MetamaskHostProvider.Current.ChangeMetamaskAvailableAsync(available);
         }
 
         [JSInvokable()]
         public async Task SelectedAccountChanged(string selectedAccount)
         {
-            await _hostProvider.ChangeSelectedAccountAsync(selectedAccount);
+            await MetamaskHostProvider.Current.ChangeSelectedAccountAsync(selectedAccount);
         }
         
         [JSInvokable()]
         public async Task SelectedNetworkChanged(string selectedNetwork)
         {
-            await _hostProvider.ChangeSelectedNetworkAsync((int)(new HexBigInteger(selectedNetwork).Value));
+            await MetamaskHostProvider.Current.ChangeSelectedNetworkAsync((int)(new HexBigInteger(selectedNetwork).Value));
         }
     }
 }

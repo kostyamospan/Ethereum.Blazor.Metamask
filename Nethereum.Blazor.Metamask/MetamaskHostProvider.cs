@@ -7,12 +7,12 @@ using Microsoft.JSInterop;
 
 namespace Nethereum.Blazor.Metamask
 {
-    public class MetamaskHostProvider : IEthereumHostProvider
+    public  class MetamaskHostProvider : IEthereumHostProvider
     {
         private readonly IMetamaskInterop _metamaskInterop;
         private MetamaskInterceptor _metamaskInterceptor;
 
-        // public static MetamaskHostProvider Current { get; private set; }
+        public static MetamaskHostProvider Current { get; private set; }
         
         public string Name { get; } = "Metamask";
         public bool Available { get; private set; }
@@ -26,13 +26,11 @@ namespace Nethereum.Blazor.Metamask
         public event Func<int, Task> NetworkChanged;
         public event Func<bool, Task> EnabledChanged;
 
-        private readonly Lazy<Task<IJSObjectReference>> moduleTask;
-        
         public MetamaskHostProvider(IJSRuntime jsRuntime, IMetamaskInterop metamaskInterop)
         {
-            moduleTask = new(() => LoadScripts(jsRuntime).AsTask());
             _metamaskInterop = metamaskInterop;
             _metamaskInterceptor = new MetamaskInterceptor(_metamaskInterop, this);
+            Current = this;
         }
 
         public async Task SwitchChainAsync(int newChainId)
@@ -130,12 +128,6 @@ namespace Nethereum.Blazor.Metamask
         public async Task<string> SignMessageAsync(string message)
         {
             return await _metamaskInterop.SignAsync(message.ToHexUTF8());
-        }
-        
-        private ValueTask<IJSObjectReference> LoadScripts(IJSRuntime jsRuntime)
-        {
-            return jsRuntime.InvokeAsync<IJSObjectReference>("import",
-                "./_content/Nethereum.Blazor.Metamask/JS/nethereumMetamaskIterop.js");
         }
     }
 }
