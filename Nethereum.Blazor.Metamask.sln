@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nethereum.Blazor.Metamask.Abstractions", "Nethereum.Blazor.Metamask.Abstractions\Nethereum.Blazor.Metamask.Abstractions.csproj", "{9389EC6F-C859-49FD-A2FA-C777C230FE0B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nethereum.Blazor.Metamask", "Nethereum.Blazor.Metamask\Nethereum.Blazor.Metamask.csproj", "{ECE219F6-3595-421B-AB8C-7E83EB82451F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9389EC6F-C859-49FD-A2FA-C777C230FE0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9389EC6F-C859-49FD-A2FA-C777C230FE0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9389EC6F-C859-49FD-A2FA-C777C230FE0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9389EC6F-C859-49FD-A2FA-C777C230FE0B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ECE219F6-3595-421B-AB8C-7E83EB82451F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECE219F6-3595-421B-AB8C-7E83EB82451F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECE219F6-3595-421B-AB8C-7E83EB82451F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECE219F6-3595-421B-AB8C-7E83EB82451F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
