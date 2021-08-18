@@ -1,4 +1,9 @@
-﻿window.NethereumMetamaskInterop = {
+﻿window.DotNetReference = null;
+window.SetDotnetReference = function (pDotNetReference) {
+    window.DotNetReference = pDotNetReference;
+};
+
+window.NethereumMetamaskInterop = {
     EnableEthereum: async () => {
         try {
             const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
@@ -6,17 +11,16 @@
             ethereum.on("accountsChanged",
                 function (accounts) {
                     console.log("JS ACCOUNT CHANGED");
-                    DotNet.invokeMethodAsync('Client', 'SelectedAccountChanged', accounts[0]);
+                    window.DotNetReference.invokeMethodAsync('Client', 'SelectedAccountChanged', accounts[0]);
                 });
             ethereum.on("chainChanged",
                 function (networkId) {
                     console.log(`JS NETWORK CHANGED: ${networkId}`);
-                    DotNet.invokeMethodAsync('Client', 'SelectedNetworkChanged', networkId.toString());
+                    window.DotNetReference.invokeMethodAsync('Client', 'SelectedNetworkChanged', networkId.toString());
                 });
             return accounts[0];
         } catch (error) {
             console.log("JS EXCEPTION ACCURED");
-            window.DotNetExceptionHandler.throw(error)
             return null;
         }
     },
@@ -50,7 +54,7 @@
         try {
             parsedMessage = JSON.parse(message);
             console.log(parsedMessage);
-            const response = await ethereum.request(parsedMessage);
+            const response = await window.ethereum.request(parsedMessage);
             let rpcResonse = {
                 jsonrpc: "2.0",
                 result: response,
@@ -68,7 +72,6 @@
                     message: e,
                 }
             }
-            window.DotNetExceptionHandler.throw(e);
             return JSON.stringify(rpcResonseError);
         }
     },
@@ -76,7 +79,7 @@
     Send: async (message) => {
         return new Promise(function (resolve, reject) {
             console.log(JSON.parse(message));
-            ethereum.send(JSON.parse(message), function (error, result) {
+            window.ethereum.send(JSON.parse(message), function (error, result) {
                 console.log(result);
                 console.log(error);
                 resolve(JSON.stringify(result));
@@ -89,13 +92,12 @@
             const from = ethereum.selectedAddress;
             const params = [utf8HexMsg, from];
             const method = 'personal_sign';
-            ethereum.send({
+            window.ethereum.send({
                 method,
                 params,
                 from,
             }, function (error, result) {
                 if (error) {
-                    window.DotNetExceptionHandler.throw(error)
                     reject(error);
                 } else {
                     console.log(result.result);
