@@ -1,4 +1,5 @@
 ﻿window.DotNetReference = null;
+
 window.SetDotnetReference = function (pDotNetReference) {
     window.DotNetReference = pDotNetReference;
 };
@@ -11,12 +12,12 @@ window.NethereumMetamaskInterop = {
             ethereum.on("accountsChanged",
                 function (accounts) {
                     console.log("JS ACCOUNT CHANGED");
-                    window.DotNetReference.invokeMethodAsync('Client', 'SelectedAccountChanged', accounts[0]);
+                    window.DotNetReference.invokeMethodAsync('SelectedAccountChanged', accounts[0]);
                 });
             ethereum.on("chainChanged",
                 function (networkId) {
                     console.log(`JS NETWORK CHANGED: ${networkId}`);
-                    window.DotNetReference.invokeMethodAsync('Client', 'SelectedNetworkChanged', networkId.toString());
+                    window.DotNetReference.invokeMethodAsync('SelectedNetworkChanged', networkId.toString());
                 });
             return accounts[0];
         } catch (error) {
