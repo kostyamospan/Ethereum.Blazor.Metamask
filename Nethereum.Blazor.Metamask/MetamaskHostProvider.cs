@@ -12,7 +12,8 @@ namespace Nethereum.Blazor.Metamask
         private readonly IMetamaskInterop _metamaskInterop;
         private MetamaskInterceptor _metamaskInterceptor;
 
-        public static MetamaskHostProvider Current { get; private set; }
+        // public static MetamaskHostProvider Current { get; private set; }
+        
         public string Name { get; } = "Metamask";
         public bool Available { get; private set; }
         public bool Connected { get; private set; }
@@ -27,9 +28,11 @@ namespace Nethereum.Blazor.Metamask
 
         private readonly Lazy<Task<IJSObjectReference>> moduleTask;
         
-        public MetamaskHostProvider(IJSRuntime jsRuntime)
+        public MetamaskHostProvider(IJSRuntime jsRuntime, IMetamaskInterop metamaskInterop)
         {
             moduleTask = new(() => LoadScripts(jsRuntime).AsTask());
+            _metamaskInterop = metamaskInterop;
+            _metamaskInterceptor = new MetamaskInterceptor(_metamaskInterop, this);
         }
 
         public async Task SwitchChainAsync(int newChainId)
@@ -91,12 +94,7 @@ namespace Nethereum.Blazor.Metamask
             return result;
         }
 
-        public MetamaskHostProvider(IMetamaskInterop metamaskInterop)
-        {
-            _metamaskInterop = metamaskInterop;
-            _metamaskInterceptor = new MetamaskInterceptor(_metamaskInterop, this);
-            Current = this;
-        }
+        
 
         public async Task ChangeSelectedAccountAsync(string selectedAccount)
         {
@@ -137,7 +135,7 @@ namespace Nethereum.Blazor.Metamask
         private ValueTask<IJSObjectReference> LoadScripts(IJSRuntime jsRuntime)
         {
             return jsRuntime.InvokeAsync<IJSObjectReference>("import",
-                "./_content/MetaMask.Blazor/metaMaskJsInterop.js");
+                "./_content/Nethereum.Blazor.Metamask/JS/nethereumMetamaskIterop.js");
         }
     }
 }
