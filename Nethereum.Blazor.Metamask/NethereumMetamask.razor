@@ -1,8 +1,13 @@
 ﻿@using System.Threading.Tasks
 @using Microsoft.JSInterop
+@using Org.BouncyCastle.Asn1.IsisMtt.Ocsp
 @inject JSRuntime _jsRuntime;
 
+@ChildContent
+
 @code {
+    [Parameter] public RenderFragment ChildContent { get; set; }
+    
     protected override async Task OnInitializedAsync()
     {
         var lDotNetReference = DotNetObjectReference.Create(this);
