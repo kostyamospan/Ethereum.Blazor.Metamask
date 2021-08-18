@@ -5,6 +5,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="Microsoft.AspNetCore.Components" Version="5.0.9" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
       <PackageReference Include="Microsoft.JSInterop.WebAssembly" Version="5.0.9" />
       <PackageReference Include="Nethereum.JsonRpc.Client" Version="4.0.5" />

@@ -1,0 +1,11 @@
+﻿@using System.Threading.Tasks
+@using Microsoft.JSInterop
+@inject JSRuntime _jsRuntime;
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        var lDotNetReference = DotNetObjectReference.Create(this);
+        await _jsRuntime.InvokeVoidAsync("window.SetDotnetReference", lDotNetReference);
+    }
+}
