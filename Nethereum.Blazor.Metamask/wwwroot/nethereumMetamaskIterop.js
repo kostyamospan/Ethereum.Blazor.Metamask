@@ -12,12 +12,12 @@ window.NethereumMetamaskInterop = {
             ethereum.on("accountsChanged",
                 function (accounts) {
                     console.log("JS ACCOUNT CHANGED");
-                    window.DotNetReference.invokeMethodAsync('SelectedAccountChanged', accounts[0]);
+                    DotNet.invokeMethodAsync('Nethereum.Blazor.Metamask','SelectedAccountChanged', accounts[0]);
                 });
             ethereum.on("chainChanged",
                 function (networkId) {
                     console.log(`JS NETWORK CHANGED: ${networkId}`);
-                    window.DotNetReference.invokeMethodAsync('SelectedNetworkChanged', networkId.toString());
+                    DotNet.invokeMethodAsync('Nethereum.Blazor.Metamask', 'SelectedNetworkChanged', networkId.toString());
                 });
             return accounts[0];
         } catch (error) {
