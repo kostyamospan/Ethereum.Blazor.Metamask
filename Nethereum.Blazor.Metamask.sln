@@ -1,10 +1,10 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nethereum.Blazor.Metamask.Abstractions", "Nethereum.Blazor.Metamask.Abstractions\Nethereum.Blazor.Metamask.Abstractions.csproj", "{9389EC6F-C859-49FD-A2FA-C777C230FE0B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nethereum.Blazor.Metamask", "src\Nethereum.Blazor.Metamask\Nethereum.Blazor.Metamask.csproj", "{D027F1F0-E4B4-49AC-B288-579D4E89F326}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nethereum.Blazor.Metamask.ExampleApp", "Nethereum.Blazor.Metamask.ExampleApp\Nethereum.Blazor.Metamask.ExampleApp.csproj", "{4A36B168-4ED6-4F50-A2E8-1054D9F0C78D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nethereum.Blazor.Metamask.Abstractions", "src\Nethereum.Blazor.Metamask.Abstractions\Nethereum.Blazor.Metamask.Abstractions.csproj", "{F097401E-9B1C-495B-B84D-3B9E3098A136}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nethereum.Blazor.Metamask", "Nethereum.Blazor.Metamask\Nethereum.Blazor.Metamask.csproj", "{6BFDB0D8-8A03-4E46-9CCE-56CABD2B08FA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nethereum.Blazor.Metamask.ExampleApp", "samples\Nethereum.Blazor.Metamask.ExampleApp\Nethereum.Blazor.Metamask.ExampleApp.csproj", "{5D339BFE-A520-4812-BB35-7D52D6ACC1A4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,5 +24,17 @@ Global
 		{6BFDB0D8-8A03-4E46-9CCE-56CABD2B08FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6BFDB0D8-8A03-4E46-9CCE-56CABD2B08FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6BFDB0D8-8A03-4E46-9CCE-56CABD2B08FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D027F1F0-E4B4-49AC-B288-579D4E89F326}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D027F1F0-E4B4-49AC-B288-579D4E89F326}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D027F1F0-E4B4-49AC-B288-579D4E89F326}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D027F1F0-E4B4-49AC-B288-579D4E89F326}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F097401E-9B1C-495B-B84D-3B9E3098A136}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F097401E-9B1C-495B-B84D-3B9E3098A136}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F097401E-9B1C-495B-B84D-3B9E3098A136}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F097401E-9B1C-495B-B84D-3B9E3098A136}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D339BFE-A520-4812-BB35-7D52D6ACC1A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D339BFE-A520-4812-BB35-7D52D6ACC1A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D339BFE-A520-4812-BB35-7D52D6ACC1A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D339BFE-A520-4812-BB35-7D52D6ACC1A4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

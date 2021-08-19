@@ -1,0 +1,99 @@
+﻿@page "/"
+@inject IEthereumHostProvider _ethereumHostProvider
+@implements IDisposable 
+
+@if(_selectedAccount is not null)
+{
+    <div>
+        Selected account address: @_selectedAccount
+    </div>
+} 
+    
+@if (_selectedChainId is not null)
+{
+    <div>
+        Selected chainId: @_selectedChainId
+    </div>
+}
+
+<div>
+    Is metamask available: @_isAvailable
+</div>
+
+<div>
+    Is metamask connected: @_isConnected
+</div>
+
+<button disabled="@(!_isAvailable || _isAvailable && _isConnected)" @onclick="@OnBtnClick">
+    Connect MetaMask
+</button>
+@code {
+
+    private string _selectedAccount;
+    private int? _selectedChainId;
+
+    private bool _isAvailable;
+    private bool _isConnected;
+
+    private bool _isDisposed;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        _isAvailable = await  _ethereumHostProvider.IsMetamaskAvailableAsync();
+        
+        if (_isAvailable)
+        {
+            _isConnected = await _ethereumHostProvider.IsMetamaskConnectedAsync();
+            
+            _ethereumHostProvider.SelectedAccountChanged += OnAccountsChange;
+            _ethereumHostProvider.NetworkChanged += OnChainChange;
+
+            if (_isConnected)
+            {
+                _selectedAccount = await  _ethereumHostProvider.GetSelectedAccountAsync();
+                _selectedChainId = await  _ethereumHostProvider.GetSelectedNetworkAsync();    
+            }
+        }
+        StateHasChanged();
+    }
+
+
+    private async Task OnBtnClick()
+    {
+        try
+        {
+            if (!_isConnected)
+                _selectedAccount = await _ethereumHostProvider.EnableProviderAsync();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+    private Task OnAccountsChange(string newAccount)
+    {
+        _selectedAccount = newAccount;
+        StateHasChanged();
+        return Task.FromResult(0);
+    }
+    
+    private Task OnChainChange(int newChainId)
+    {
+        _selectedChainId = newChainId;
+        StateHasChanged();
+        return Task.FromResult(0);
+    }
+
+    public void Dispose()
+    {
+        if(_isDisposed) return;
+
+        _ethereumHostProvider.SelectedAccountChanged -= OnAccountsChange;
+        _ethereumHostProvider.NetworkChanged -= OnChainChange;
+        _isDisposed = true;
+    }
+
+}
+
