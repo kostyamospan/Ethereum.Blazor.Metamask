@@ -60,28 +60,10 @@ namespace Nethereum.Blazor.Metamask
         {
             return await _jsRuntime.InvokeAsync<string>("NethereumMetamaskInterop.GetSelectedAddress");
         }
-        
+
         public async ValueTask<int> GetSelectedNetwork()
         {
             return await _jsRuntime.InvokeAsync<int>("NethereumMetamaskInterop.GetSelectedNetwork");
-        }
-
-        [JSInvokable("MetamaskAvailableChanged")]
-        public static async Task MetamaskAvailableChanged(bool available)
-        {
-            await MetamaskHostProvider.Current.ChangeMetamaskAvailableAsync(available);
-        }
-
-        [JSInvokable("SelectedAccountChanged")]
-        public static async Task SelectedAccountChanged(string selectedAccount)
-        {
-            await MetamaskHostProvider.Current.ChangeSelectedAccountAsync(selectedAccount);
-        }
-        
-        [JSInvokable("SelectedNetworkChanged")]
-        public static async Task SelectedNetworkChanged(string selectedNetwork)
-        {
-            await MetamaskHostProvider.Current.ChangeSelectedNetworkAsync((int)(new HexBigInteger(selectedNetwork).Value));
         }
     }
 }
