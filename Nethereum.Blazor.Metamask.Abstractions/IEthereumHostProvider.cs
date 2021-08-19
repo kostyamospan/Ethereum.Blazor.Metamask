@@ -5,14 +5,6 @@ namespace Nethereum.Blazor.Metamask.Abstractions
 {
     public interface IEthereumHostProvider
     {
-        string Name { get; }
-
-        bool Available { get; }
-        bool Connected { get; }
-        string SelectedAccount { get; }
-        int SelectedNetwork { get; }
-        bool Enabled { get; }
-
         event Func<string, Task> SelectedAccountChanged;
         event Func<int, Task> NetworkChanged;
         event Func<bool, Task> AvailabilityChanged;
@@ -20,12 +12,12 @@ namespace Nethereum.Blazor.Metamask.Abstractions
 
 
         Task SwitchChainAsync(int newChainId);
-        Task<bool> CheckProviderAvailabilityAsync();
-        Task<bool> CheckProviderConnectedAsync();
-        Task<Web3.Web3> GetWeb3Async();
-        Task<string> EnableProviderAsync();
-        Task<string> GetProviderSelectedAccountAsync();
-        Task<int> GetProviderSelectedNetworkAsync();
-        Task<string> SignMessageAsync(string message);
+        ValueTask<bool> IsMetamaskAvailableAsync();
+        ValueTask<bool> IsMetamaskConnectedAsync();
+        Web3.Web3 GetWeb3();
+        ValueTask<string> EnableProviderAsync();
+        ValueTask<string> GetSelectedAccountAsync();
+        ValueTask<int> GetSelectedNetworkAsync();
+        ValueTask<string> SignMessageAsync(string message);
     }
 }

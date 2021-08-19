@@ -11,12 +11,9 @@ namespace Nethereum.Metamask
     public class MetamaskInterceptor : RequestInterceptor
     {
         private readonly IMetamaskInterop _metamaskInterop;
-        private readonly MetamaskHostProvider _metamaskHostProvider;
-
-        public MetamaskInterceptor(IMetamaskInterop metamaskInterop, MetamaskHostProvider metamaskHostProvider)
+        public MetamaskInterceptor(IMetamaskInterop metamaskInterop)
         {
             _metamaskInterop = metamaskInterop;
-            _metamaskHostProvider = metamaskHostProvider;
         }
 
         public override async Task<object> InterceptSendRequestAsync<T>(
@@ -26,10 +23,10 @@ namespace Nethereum.Metamask
             if (request.Method == "eth_sendTransaction")
             {
                 var transaction = (TransactionInput) request.RawParameters[0];
-                transaction.From = _metamaskHostProvider.SelectedAccount;
+                transaction.From = await _metamaskInterop.GetSelectedAddress();
                 request.RawParameters[0] = transaction;
                 var response = await _metamaskInterop.SendAsync(new MetamaskRpcRequestMessage(request.Id,
-                    request.Method, GetSelectedAccount(),
+                    request.Method, await GetSelectedAccount(),
                     request.RawParameters));
                 return ConvertResponse<T>(response);
             }
@@ -46,31 +43,28 @@ namespace Nethereum.Metamask
             Func<string, string, object[], Task<T>> interceptedSendRequestAsync, string method,
             string route = null, params object[] paramList)
         {
+            var selectedAddress = await GetSelectedAccount();
+
             if (method == "eth_sendTransaction")
             {
                 var transaction = (TransactionInput) paramList[0];
-                transaction.From = GetSelectedAccount();
+                transaction.From = selectedAddress;
                 paramList[0] = transaction;
                 var response = await _metamaskInterop.SendAsync(new MetamaskRpcRequestMessage(route, method,
-                    GetSelectedAccount(),
+                    selectedAddress,
                     paramList));
                 return ConvertResponse<T>(response);
             }
             else
             {
-                var response = await _metamaskInterop.SendAsync(new RpcRequestMessage(route, GetSelectedAccount(),
+                var response = await _metamaskInterop.SendAsync(new RpcRequestMessage(route, selectedAddress,
                     method,
                     paramList));
                 return ConvertResponse<T>(response);
             }
         }
-
-        private string GetSelectedAccount()
-        {
-            return _metamaskHostProvider.SelectedAccount;
-        }
-
-        protected void HandleRpcError(RpcResponseMessage response)
+        
+        private void HandleRpcError(RpcResponseMessage response)
         {
             if (response.HasError)
                 throw new RpcResponseException(new JsonRpc.Client.RpcError(response.Error.Code, response.Error.Message,
@@ -90,5 +84,7 @@ namespace Nethereum.Metamask
                 throw new RpcResponseFormatException("Invalid format found in RPC response", formatException);
             }
         }
+
+        private ValueTask<string> GetSelectedAccount() => _metamaskInterop.GetSelectedAddress();
     }
 }
