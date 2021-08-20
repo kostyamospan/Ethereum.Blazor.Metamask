@@ -11,12 +11,6 @@
         var dotNetObjRef = DotNetObjectReference.Create(this);
         await _jsRuntime.InvokeVoidAsync("window.SetDotnetReference", dotNetObjRef);
     }
-    
-    [JSInvokable("MetamaskAvailableChanged")]
-    public async Task MetamaskAvailableChanged(bool available)
-    {
-        await _metamaskHostProvider.ChangeMetamaskAvailableAsync(available);
-    }
 
     [JSInvokable("SelectedAccountChanged")]
     public async Task SelectedAccountChanged(string selectedAccount)
@@ -28,5 +22,17 @@
     public async Task SelectedNetworkChanged(string selectedNetwork)
     {
         await _metamaskHostProvider.ChangeSelectedNetworkAsync((int)(new HexBigInteger(selectedNetwork).Value));
+    }
+    
+    [JSInvokable("MetamaskConnected")]
+    public async Task MetamaskConnected(int chainId)
+    {
+        await _metamaskHostProvider.OnMetamaskConnected(chainId);
+    }
+
+    [JSInvokable("MetamaskDisconnected")]
+    public async Task MetamaskDisconnected()
+    {
+        await _metamaskHostProvider.OnMetamaskDisconnected();
     }
 }

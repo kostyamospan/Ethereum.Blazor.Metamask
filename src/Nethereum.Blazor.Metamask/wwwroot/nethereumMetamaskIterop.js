@@ -15,10 +15,19 @@ window.NethereumMetamaskInterop = {
                     window.DotNetReference.invokeMethodAsync('SelectedAccountChanged', accounts[0]);
                 });
             ethereum.on("chainChanged",
-                function (networkId) {
-                    console.log(`JS NETWORK CHANGED: ${networkId}`);
-                    window.DotNetReference.invokeMethodAsync('SelectedNetworkChanged', networkId.toString());
+                function (chainId) {
+                    console.log(`JS NETWORK CHANGED: ${chainId}`);
+                    window.DotNetReference.invokeMethodAsync('SelectedNetworkChanged', parseInt(chainId, 16));
                 });
+
+            ethereum.on("connect", (connectInfo) =>  {
+                window.DotNetReference.invokeMethodAsync('MetamaskConnected', parseInt(connectInfo.chainId, 16));
+            });
+            
+            ethereum.on("disconnect", () =>  {
+                window.DotNetReference.invokeMethodAsync('MetamaskDisconnected');
+            });
+            
             return accounts[0];
         } catch (error) {
             return null;
@@ -28,7 +37,7 @@ window.NethereumMetamaskInterop = {
         return Boolean(window.ethereum);
     },
     IsMetamaskConnected: () => {
-        return (Boolean(window.ethereum) && Boolean(window.selectedAddress));
+        return (Boolean(window.ethereum) && Boolean(window.ethereum.selectedAddress));
     },
     GetSelectedAddress: () => {
         return ethereum.selectedAddress;

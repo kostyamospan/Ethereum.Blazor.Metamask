@@ -1,14 +1,15 @@
 ﻿@page "/"
 @inject IEthereumHostProvider _ethereumHostProvider
-@implements IDisposable 
+@inject IJSRuntime _jsRuntime
+@implements IDisposable     
 
-@if(_selectedAccount is not null)
+@if (_selectedAccount is not null)
 {
     <div>
         Selected account address: @_selectedAccount
     </div>
-} 
-    
+}
+
 @if (_selectedChainId is not null)
 {
     <div>
@@ -21,39 +22,34 @@
 </div>
 
 <div>
-    Is metamask connected: @_isConnected
+    Is metamask connected: @IsConnected
 </div>
 
-<button disabled="@(!_isAvailable || _isAvailable && _isConnected)" @onclick="@OnBtnClick">
+<button disabled="@(!_isAvailable || IsConnected)" @onclick="@OnBtnClick">
     Connect MetaMask
 </button>
+
 @code {
 
     private string _selectedAccount;
     private int? _selectedChainId;
-
     private bool _isAvailable;
-    private bool _isConnected;
-
     private bool _isDisposed;
     
+    private bool IsConnected => _isAvailable && _selectedAccount is not null;
+
     protected override async Task OnInitializedAsync()
     {
-        _isAvailable = await  _ethereumHostProvider.IsMetamaskAvailableAsync();
-        
+        _isAvailable = await _ethereumHostProvider.IsMetamaskAvailableAsync();
+
         if (_isAvailable)
         {
-            _isConnected = await _ethereumHostProvider.IsMetamaskConnectedAsync();
-            
-            _ethereumHostProvider.SelectedAccountChanged += OnAccountsChange;
-            _ethereumHostProvider.NetworkChanged += OnChainChange;
+            _selectedAccount = await _ethereumHostProvider.GetSelectedAccountAsync();
+            _selectedChainId = await _ethereumHostProvider.GetSelectedNetworkAsync();
 
-            if (_isConnected)
-            {
-                _selectedAccount = await  _ethereumHostProvider.GetSelectedAccountAsync();
-                _selectedChainId = await  _ethereumHostProvider.GetSelectedNetworkAsync();    
-            }
+            SubscribeOnProviderEvents();
         }
+        
         StateHasChanged();
     }
 
@@ -62,7 +58,7 @@
     {
         try
         {
-            if (!_isConnected)
+            if (!IsConnected)
                 _selectedAccount = await _ethereumHostProvider.EnableProviderAsync();
         }
         catch (Exception e)
@@ -72,28 +68,51 @@
         }
     }
 
+    private async Task OnAccountConnected(int chainId)
+    {
+        _selectedChainId = chainId;
+        await  _jsRuntime.InvokeVoidAsync("alert", "Metamask successfully connected!").AsTask();
+    }
+    
+    private Task OnAccountDisconnected()
+        => _jsRuntime.InvokeVoidAsync("alert", "Account is disconneted").AsTask();
     private Task OnAccountsChange(string newAccount)
     {
         _selectedAccount = newAccount;
         StateHasChanged();
-        return Task.FromResult(0);
+        return Task.CompletedTask;
     }
-    
+
     private Task OnChainChange(int newChainId)
     {
         _selectedChainId = newChainId;
         StateHasChanged();
-        return Task.FromResult(0);
+        return Task.CompletedTask;
+    }
+
+    private void UnSubscribeFromProviderEvents()
+    {
+        _ethereumHostProvider.SelectedAccountChanged -= OnAccountsChange;
+        _ethereumHostProvider.NetworkChanged -= OnChainChange;
+        _ethereumHostProvider.ProviderConnected -= OnAccountConnected;
+        _ethereumHostProvider.ProviderDisconnected -= OnAccountDisconnected;
+    }
+    
+    private void SubscribeOnProviderEvents()
+    {
+        _ethereumHostProvider.SelectedAccountChanged += OnAccountsChange;
+        _ethereumHostProvider.NetworkChanged += OnChainChange;
+        _ethereumHostProvider.ProviderConnected += OnAccountConnected;
+        _ethereumHostProvider.ProviderDisconnected += OnAccountDisconnected;
     }
 
     public void Dispose()
     {
-        if(_isDisposed) return;
+        if (_isDisposed) return;
 
-        _ethereumHostProvider.SelectedAccountChanged -= OnAccountsChange;
-        _ethereumHostProvider.NetworkChanged -= OnChainChange;
+        UnSubscribeFromProviderEvents();
+        
         _isDisposed = true;
     }
 
 }
-

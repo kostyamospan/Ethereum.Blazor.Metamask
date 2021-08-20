@@ -12,10 +12,10 @@ namespace Nethereum.Blazor.Metamask
         private readonly IMetamaskInterop _metamaskInterop;
         private MetamaskInterceptor _metamaskInterceptor;
 
-        public event Func<bool, Task> AvailabilityChanged;
         public event Func<string, Task> SelectedAccountChanged;
         public event Func<int, Task> NetworkChanged;
-        public event Func<bool, Task> EnabledChanged;
+        public event Func<int, Task> ProviderConnected;
+        public event Func<Task> ProviderDisconnected;
 
         public MetamaskHostProvider(IJSRuntime jsRuntime, IMetamaskInterop metamaskInterop, MetamaskInterceptor metamaskInterceptor)
         {
@@ -66,11 +66,17 @@ namespace Nethereum.Blazor.Metamask
             if (NetworkChanged is not null)
                 await NetworkChanged.Invoke(selectedNetwork);
         }
-
-        public async Task ChangeMetamaskAvailableAsync(bool available)
+        
+        public async Task OnMetamaskConnected(int chainId)
         {
-            if (AvailabilityChanged is not null)
-                await AvailabilityChanged.Invoke(available);
+            if (ProviderConnected is not null)
+                await ProviderConnected.Invoke(chainId);
+        }
+        
+        public async Task OnMetamaskDisconnected()
+        {
+            if (ProviderDisconnected is not null)
+                await ProviderDisconnected.Invoke();
         }
 
         public ValueTask<string> SignMessageAsync(string message)

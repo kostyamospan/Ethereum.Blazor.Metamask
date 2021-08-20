@@ -7,9 +7,8 @@ namespace Nethereum.Blazor.Metamask.Abstractions
     {
         event Func<string, Task> SelectedAccountChanged;
         event Func<int, Task> NetworkChanged;
-        event Func<bool, Task> AvailabilityChanged;
-        event Func<bool, Task> EnabledChanged;
-
+        event Func<int, Task> ProviderConnected;
+        event Func<Task> ProviderDisconnected;
 
         Task SwitchChainAsync(int newChainId);
         ValueTask<bool> IsMetamaskAvailableAsync();
