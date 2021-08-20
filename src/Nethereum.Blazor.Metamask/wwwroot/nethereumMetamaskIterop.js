@@ -21,7 +21,6 @@ window.NethereumMetamaskInterop = {
                 });
             return accounts[0];
         } catch (error) {
-            console.log("JS EXCEPTION ACCURED");
             return null;
         }
     },
