@@ -1,8 +1,8 @@
 ﻿using Nethereum.JsonRpc.Client.RpcMessages;
 using System.Threading.Tasks;
-using Nethereum.Metamask;
+using Ethereum.Blazor.Metamask.Abstractions.Models;
 
-namespace Nethereum.Blazor.Metamask.Abstractions
+namespace Ethereum.Blazor.Metamask.Abstractions
 {
     public interface IMetamaskInterop
     {
@@ -11,7 +11,7 @@ namespace Nethereum.Blazor.Metamask.Abstractions
         ValueTask<bool> CheckAccountConnected();
         ValueTask<string> GetSelectedAddress();
         ValueTask<int> GetSelectedNetwork();
-        
+
         ValueTask<RpcResponseMessage> SendAsync(RpcRequestMessage rpcRequestMessage);
         ValueTask<RpcResponseMessage> SendTransactionAsync(MetamaskRpcRequestMessage rpcRequestMessage);
         ValueTask<string> SignAsync(string utf8Hex);

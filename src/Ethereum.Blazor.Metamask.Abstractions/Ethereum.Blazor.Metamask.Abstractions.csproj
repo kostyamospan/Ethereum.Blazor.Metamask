@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
-        <RootNamespace>ClassLibrary1</RootNamespace>
+        <RootNamespace>Ethereum.Blazor.Metamask.Abstractions</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

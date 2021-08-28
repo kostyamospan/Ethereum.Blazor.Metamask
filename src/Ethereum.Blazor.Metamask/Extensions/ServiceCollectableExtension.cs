@@ -1,8 +1,7 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Nethereum.Blazor.Metamask.Abstractions;
-using Nethereum.Metamask;
+﻿using Ethereum.Blazor.Metamask.Abstractions;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace Nethereum.Blazor.Metamask.Extensions
+namespace Ethereum.Blazor.Metamask.Extensions
 {
     public static class ServiceCollectableExtension
     {

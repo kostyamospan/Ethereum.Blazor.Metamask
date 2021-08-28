@@ -2,6 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
+        <RootNamespace>Ethereum.Blazor.Metamask.SampleApp</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -11,11 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\Nethereum.Blazor.Metamask\Nethereum.Blazor.Metamask.csproj" />
+      <ProjectReference Include="..\..\src\Ethereum.Blazor.Metamask\Ethereum.Blazor.Metamask.csproj" />
     </ItemGroup>
-
-    <ItemGroup>
-      <_ContentIncludedByDefault Remove="wwwroot\sample-data\weather.json" />
-    </ItemGroup>
-
+  
 </Project>

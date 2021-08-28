@@ -11,23 +11,14 @@ window.NethereumMetamaskInterop = {
             ethereum.autoRefreshOnNetworkChange = false;
             ethereum.on("accountsChanged",
                 function (accounts) {
-                    console.log("JS ACCOUNT CHANGED");
+                    console.debug("account changed JS");
                     window.DotNetReference.invokeMethodAsync('SelectedAccountChanged', accounts[0]);
                 });
             ethereum.on("chainChanged",
                 function (chainId) {
-                    console.log(`JS NETWORK CHANGED: ${chainId}`);
+                    console.debug("chain changed JS");
                     window.DotNetReference.invokeMethodAsync('SelectedNetworkChanged', parseInt(chainId, 16));
                 });
-
-            ethereum.on("connect", (connectInfo) =>  {
-                window.DotNetReference.invokeMethodAsync('MetamaskConnected', parseInt(connectInfo.chainId, 16));
-            });
-            
-            ethereum.on("disconnect", () =>  {
-                window.DotNetReference.invokeMethodAsync('MetamaskDisconnected');
-            });
-            
             return accounts[0];
         } catch (error) {
             return null;
@@ -37,7 +28,7 @@ window.NethereumMetamaskInterop = {
         return Boolean(window.ethereum);
     },
     IsMetamaskConnected: () => {
-        return (Boolean(window.ethereum) && Boolean(window.ethereum.selectedAddress));
+        return (Boolean(window.ethereum) && Boolean(window.ethereum.selectedAddress) && window.ethereum.selectedAddress != null);
     },
     GetSelectedAddress: () => {
         return ethereum.selectedAddress;
@@ -46,15 +37,12 @@ window.NethereumMetamaskInterop = {
         return parseInt(ethereum.chainId, 16);
     },
     SwitchChain: async (newChainId) => {
-        console.log("Switching chain");
-
         try {
             await window.ethereum.request({
                 method: 'wallet_switchEthereumChain',
-                params: [{ chainId: '0x' + decimalToHexZeroPadded(newChainId) }],
+                params: [{ chainId: '0x' + (+newChainId).toString(16) }],
             });
         } catch (switchError) {
-            console.log("cannot switch chain")
             console.error(switchError);
         }
     },
@@ -62,7 +50,6 @@ window.NethereumMetamaskInterop = {
         let parsedMessage = {};
         try {
             parsedMessage = JSON.parse(message);
-            console.log(parsedMessage);
             const response = await window.ethereum.request(parsedMessage);
             let rpcResonse = {
                 jsonrpc: "2.0",
@@ -70,8 +57,6 @@ window.NethereumMetamaskInterop = {
                 id: parsedMessage.id,
                 error: null
             }
-            console.log(rpcResonse);
-
             return JSON.stringify(rpcResonse);
         } catch (e) {
             let rpcResonseError = {
@@ -87,10 +72,8 @@ window.NethereumMetamaskInterop = {
 
     Send: async (message) => {
         return new Promise(function (resolve, reject) {
-            console.log(JSON.parse(message));
             window.ethereum.send(JSON.parse(message), function (error, result) {
-                console.log(result);
-                console.log(error);
+                if(error) console.log(error);
                 resolve(JSON.stringify(result));
             });
         });
@@ -109,19 +92,9 @@ window.NethereumMetamaskInterop = {
                 if (error) {
                     reject(error);
                 } else {
-                    console.log(result.result);
                     resolve(JSON.stringify(result.result));
                 }
             });
         });
     }
-
-}
-
-function decimalToHexZeroPadded(d) {
-    let s = (+d).toString(16);
-    if(s.length < 2) {
-        s = '0' + s;
-    }
-    return s;
 }

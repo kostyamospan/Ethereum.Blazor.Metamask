@@ -1,0 +1,27 @@
+﻿@inject IJSRuntime _jsRuntime;
+@inject MetamaskHostProvider _metamaskHostProvider
+
+@if (_isComponentLoaded)
+{
+    @ChildContent
+}
+
+@code {
+    [Parameter] public RenderFragment ChildContent { get; set; }
+
+    private bool _isComponentLoaded;
+    protected override async Task OnInitializedAsync()
+    {
+        var dotNetObjRef = DotNetObjectReference.Create(this);
+        await _jsRuntime.InvokeVoidAsync("window.SetDotnetReference", dotNetObjRef);
+        _isComponentLoaded = true;
+    }
+
+    [JSInvokable("SelectedAccountChanged")]
+    public Task SelectedAccountChanged(string selectedAccount)
+        => _metamaskHostProvider.ChangeSelectedAccountAsync(selectedAccount);
+        
+    [JSInvokable("SelectedNetworkChanged")]
+    public Task SelectedNetworkChanged(int selectedNetwork)
+        => _metamaskHostProvider.ChangeSelectedNetworkAsync(selectedNetwork);
+}

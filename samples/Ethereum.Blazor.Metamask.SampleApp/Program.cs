@@ -3,13 +3,13 @@ using System.Net.Http;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Text;
+using Ethereum.Blazor.Metamask.Extensions;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Nethereum.Blazor.Metamask.Extensions;
 
-namespace Nethereum.Blazor.Metamask.ExampleApp
+namespace Ethereum.Blazor.Metamask.SampleApp
 {
     public class Program
     {

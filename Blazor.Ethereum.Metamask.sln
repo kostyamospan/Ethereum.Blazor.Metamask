@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31515.178
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ethereum.Blazor.Metamask.Abstractions", "src\Ethereum.Blazor.Metamask.Abstractions\Ethereum.Blazor.Metamask.Abstractions.csproj", "{62AB902F-B115-4561-BD72-BE28A7CB34D1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ethereum.Blazor.Metamask", "src\Ethereum.Blazor.Metamask\Ethereum.Blazor.Metamask.csproj", "{FB317C6E-1E9C-4E15-9EE3-91BEC7416DFD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ethereum.Blazor.Metamask.SampleApp", "samples\Ethereum.Blazor.Metamask.SampleApp\Ethereum.Blazor.Metamask.SampleApp.csproj", "{7D9523E3-4336-4D57-9DA8-A6787DD5F3ED}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{62AB902F-B115-4561-BD72-BE28A7CB34D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62AB902F-B115-4561-BD72-BE28A7CB34D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62AB902F-B115-4561-BD72-BE28A7CB34D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62AB902F-B115-4561-BD72-BE28A7CB34D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB317C6E-1E9C-4E15-9EE3-91BEC7416DFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB317C6E-1E9C-4E15-9EE3-91BEC7416DFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB317C6E-1E9C-4E15-9EE3-91BEC7416DFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB317C6E-1E9C-4E15-9EE3-91BEC7416DFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D9523E3-4336-4D57-9DA8-A6787DD5F3ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D9523E3-4336-4D57-9DA8-A6787DD5F3ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D9523E3-4336-4D57-9DA8-A6787DD5F3ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D9523E3-4336-4D57-9DA8-A6787DD5F3ED}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AFC1DA8B-7D3C-4846-B4AF-25D3224173B7}
+	EndGlobalSection
+EndGlobal

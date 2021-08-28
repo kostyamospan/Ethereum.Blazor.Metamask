@@ -1,12 +1,12 @@
 ﻿using Nethereum.JsonRpc.Client;
 using System;
 using System.Threading.Tasks;
-using Nethereum.Blazor.Metamask;
-using Nethereum.Blazor.Metamask.Abstractions;
+using Ethereum.Blazor.Metamask.Abstractions;
+using Ethereum.Blazor.Metamask.Abstractions.Models;
 using Nethereum.RPC.Eth.DTOs;
 using Nethereum.JsonRpc.Client.RpcMessages;
 
-namespace Nethereum.Metamask
+namespace Ethereum.Blazor.Metamask
 {
     public class MetamaskInterceptor : RequestInterceptor
     {
@@ -22,7 +22,7 @@ namespace Nethereum.Metamask
         {
             if (request.Method == "eth_sendTransaction")
             {
-                var transaction = (TransactionInput) request.RawParameters[0];
+                var transaction = (TransactionInput)request.RawParameters[0];
                 transaction.From = await _metamaskInterop.GetSelectedAddress();
                 request.RawParameters[0] = transaction;
                 var response = await _metamaskInterop.SendAsync(new MetamaskRpcRequestMessage(request.Id,
@@ -47,7 +47,7 @@ namespace Nethereum.Metamask
 
             if (method == "eth_sendTransaction")
             {
-                var transaction = (TransactionInput) paramList[0];
+                var transaction = (TransactionInput)paramList[0];
                 transaction.From = selectedAddress;
                 paramList[0] = transaction;
                 var response = await _metamaskInterop.SendAsync(new MetamaskRpcRequestMessage(route, method,
@@ -63,11 +63,11 @@ namespace Nethereum.Metamask
                 return ConvertResponse<T>(response);
             }
         }
-        
+
         private void HandleRpcError(RpcResponseMessage response)
         {
             if (response.HasError)
-                throw new RpcResponseException(new JsonRpc.Client.RpcError(response.Error.Code, response.Error.Message,
+                throw new RpcResponseException(new Nethereum.JsonRpc.Client.RpcError(response.Error.Code, response.Error.Message,
                     response.Error.Data));
         }
 
