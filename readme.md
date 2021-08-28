@@ -10,9 +10,12 @@ This project is based on https://github.com/Nethereum/Nethereum.Metamask.Blazor
 # How to install
 
 1.Download the package from ``NuGet``
+
 2.Place this script import into header of index.html file
+
 ```<script src="_content/Ethereum.Blazor.Metamask/EthereumMetamaskIterop.js"></script>```
-3.Register the necessary service in Progra.cs ``builder.Services.AddBlazorMetamask();``
+3.Register the necessary service in Progra.cs ```builder.Services.AddBlazorMetamask();```
+
 4.Wrap all components with ``<Metamask>...</Metamask>`` in App.razor file
 
 # How to use
