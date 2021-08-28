@@ -29,6 +29,22 @@
     Connect MetaMask
 </button>
 
+@if(IsConnected) 
+{ 
+    <button @onclick="@OnSignBtnClick">
+        Sign message
+    </button>
+
+    if (_signedMessage is not null)
+    {
+        <div class="d-flex flex-column mt-2">
+            <span>Signed message: </span>
+            <div class="mt-2"></div>
+            <span>@_signedMessage</span>    
+        </div>
+    }
+}
+
 @code {
 
     private string _selectedAccount;
@@ -38,6 +54,8 @@
     
     private bool IsConnected => _isAvailable && _selectedAccount is not null;
 
+    private string _signedMessage;
+    
     protected override async Task OnInitializedAsync()
     {
         _isAvailable = await _ethereumHostProvider.IsMetamaskAvailableAsync();
@@ -53,7 +71,11 @@
         
         StateHasChanged();
     }
-    
+
+    private async Task OnSignBtnClick()
+    {
+        _signedMessage = await _ethereumHostProvider.SignMessageAsync("You want to sign this message?", "Some message to sign");
+    }
     private async Task OnBtnClick()
     {
         _selectedAccount = await _ethereumHostProvider.EnableProviderAsync();

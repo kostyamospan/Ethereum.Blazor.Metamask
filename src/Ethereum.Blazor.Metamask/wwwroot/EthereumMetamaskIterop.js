@@ -7,7 +7,7 @@ window.SetDotnetReference = function (pDotNetReference) {
 window.NethereumMetamaskInterop = {
     EnableEthereum: async () => {
         try {
-            const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+            const accounts = await ethereum.request({method: 'eth_requestAccounts'});
             ethereum.autoRefreshOnNetworkChange = false;
             ethereum.on("accountsChanged",
                 function (accounts) {
@@ -40,7 +40,7 @@ window.NethereumMetamaskInterop = {
         try {
             await window.ethereum.request({
                 method: 'wallet_switchEthereumChain',
-                params: [{ chainId: '0x' + (+newChainId).toString(16) }],
+                params: [{chainId: '0x' + (+newChainId).toString(16)}],
             });
         } catch (switchError) {
             console.error(switchError);
@@ -73,28 +73,24 @@ window.NethereumMetamaskInterop = {
     Send: async (message) => {
         return new Promise(function (resolve, reject) {
             window.ethereum.send(JSON.parse(message), function (error, result) {
-                if(error) console.log(error);
+                if (error) console.log(error);
                 resolve(JSON.stringify(result));
             });
         });
     },
 
-    Sign: async (utf8HexMsg) => {
-        return new Promise(function (resolve, reject) {
-            const from = ethereum.selectedAddress;
-            const params = [utf8HexMsg, from];
-            const method = 'personal_sign';
-            window.ethereum.send({
-                method,
-                params,
-                from,
-            }, function (error, result) {
-                if (error) {
-                    reject(error);
-                } else {
-                    resolve(JSON.stringify(result.result));
-                }
-            });
+    Sign: async (label, value) => {
+        const from = window.ethereum.selectedAddress;
+        const params = [
+            {
+                type: 'string',
+                name: label,
+                value: value
+            }
+        ];
+        return await window.ethereum.request({
+            method: 'eth_signTypedData',
+            params: [params, from]
         });
     }
 }

@@ -35,9 +35,9 @@ namespace Ethereum.Blazor.Metamask
             return JsonConvert.DeserializeObject<RpcResponseMessage>(response);
         }
 
-        public async ValueTask<string> SignAsync(string utf8Hex)
+        public async ValueTask<string> SignAsync(string label, string name)
         {
-            var result = await InvokeJsAsync<string>("NethereumMetamaskInterop.Sign", utf8Hex);
+            var result = await InvokeJsAsync<string>("NethereumMetamaskInterop.Sign", label, name);
             return result.Trim('"');
         }
 

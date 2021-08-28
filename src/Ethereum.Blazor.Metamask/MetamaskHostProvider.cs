@@ -51,6 +51,8 @@ namespace Ethereum.Blazor.Metamask
         public ValueTask<int> GetSelectedNetworkAsync()
             => _metamaskInterop.GetSelectedNetwork();
 
+        
+
         public async Task ChangeSelectedAccountAsync(string selectedAccount)
         {
             if (SelectedAccountChanged is not null) 
@@ -62,8 +64,8 @@ namespace Ethereum.Blazor.Metamask
             if (NetworkChanged is not null)
                 await NetworkChanged.Invoke(selectedNetwork);
         }
-
-        public ValueTask<string> SignMessageAsync(string message)
-            => _metamaskInterop.SignAsync(message.ToHexUTF8());
+        
+        public ValueTask<string> SignMessageAsync(string label, string message)
+            => _metamaskInterop.SignAsync(label, message);
     }
 }

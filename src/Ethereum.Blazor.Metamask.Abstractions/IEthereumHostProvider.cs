@@ -15,6 +15,6 @@ namespace Ethereum.Blazor.Metamask.Abstractions
         ValueTask<string> EnableProviderAsync();
         ValueTask<string> GetSelectedAccountAsync();
         ValueTask<int> GetSelectedNetworkAsync();
-        ValueTask<string> SignMessageAsync(string message);
+        ValueTask<string> SignMessageAsync(string label, string message);
     }
 }

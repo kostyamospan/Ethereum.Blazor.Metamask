@@ -14,7 +14,7 @@ namespace Ethereum.Blazor.Metamask.Abstractions
 
         ValueTask<RpcResponseMessage> SendAsync(RpcRequestMessage rpcRequestMessage);
         ValueTask<RpcResponseMessage> SendTransactionAsync(MetamaskRpcRequestMessage rpcRequestMessage);
-        ValueTask<string> SignAsync(string utf8Hex);
+        ValueTask<string> SignAsync(string label, string message);
         Task SwitchChainAsync(int newChainId);
     }
 }
