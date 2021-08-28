@@ -21,9 +21,12 @@ This project is based on https://github.com/Nethereum/Nethereum.Metamask.Blazor
 1.Check for metamask availability
 ```bool isAvailable = await _ethereumHostProvider.IsMetamaskAvailableAsync();```
 If its not avalaible, ask user to install the Metamask
+
 2.Check, if user attached Metamask to your Dapp:
 ``bool isConnected = await _ethereumHostProvider.IsMetamaskConnectedAsync();``
-3.Enable provider. Allways call this method to initially load user`s selected account:
+
+3.Enable provider. Allways call this method to initially load users selected account:
 ``string selectedAccount await _ethereumHostProvider.EnableProviderAsync();``
 If user previosly didnt attached his Metamask account, calling this method will triger Metamask account selection
+
 4.***Optional***. Subscribe on on ``SelectedAccountChanged`` and ``NetworkChanged`` events to handle user iteraction with Metamask
