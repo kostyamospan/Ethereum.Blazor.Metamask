@@ -30,3 +30,5 @@ If its not avalaible, ask user to install the Metamask
 If user previosly didnt attached his Metamask account, calling this method will triger Metamask account selection
 
 4.***Optional***. Subscribe on on ``SelectedAccountChanged`` and ``NetworkChanged`` events to handle user iteraction with Metamask
+
+Check SampleApp to get more of it 😉
